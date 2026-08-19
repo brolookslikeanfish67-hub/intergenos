@@ -1,0 +1,29 @@
+# packages/extra/helium/package.yml
+name: helium-browser
+version: 0.15.4.1
+tier: extra
+description: "Private, fast, minimal, and telemetry-free Chromium browser with native uBlock Origin."
+source:
+  url: "https://github.com"
+  sha256: "ab1f761b65567dddd062bd0462d342a0994d7c6380be1ef5710b8513903c1f3c"
+dependencies:
+  - mesa
+  - alsa-utils
+  - gtk4
+build: |
+  # Establish clean workspace locations for the build payload
+  mkdir -p "${IGOS_PKG_DEST}/opt/helium"
+  mkdir -p "${IGOS_PKG_DEST}/usr/bin"
+  mkdir -p "${IGOS_PKG_DEST}/usr/share/applications"
+
+  # Extract downloaded binary bundle straight to /opt/
+  cp -r * "${IGOS_PKG_DEST}/opt/helium/"
+
+  # Create an absolute execution wrapper fixing native Wayland scaling for GNOME 49
+  cat << 'EOF' > "${IGOS_PKG_DEST}/usr/bin/helium"
+  #!/bin/bash
+  # Force Ozone backend to match the native Wayland GNOME session profile
+  exec /opt/helium/helium --ozone-platform=wayland --enable-features=UseOzonePlatform,WaylandWindowDecorations "$@"
+  EOF
+  
+  chmod +x "${IGOS_PKG_DEST}/usr/bin/helium"
