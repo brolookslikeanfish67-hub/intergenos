@@ -38,3 +38,11 @@ build: |
   Categories=System;TerminalEmulator;
   StartupNotify=true
   EOF
+
+  # Set SO-CUTE-CAT as the default terminal handler for the GNOME desktop environment
+  mkdir -p "${IGOS_PKG_DEST}/usr/share/glib-2.0/schemas"
+  cat << 'EOF' > "${IGOS_PKG_DEST}/usr/share/glib-2.0/schemas/90_intergenos.gschema.override"
+  [org.gnome.desktop.default-applications.terminal]
+  exec='so-cute-cat'
+  exec-arg='-e'
+  EOF
