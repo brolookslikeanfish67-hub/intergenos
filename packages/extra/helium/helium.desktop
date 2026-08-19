@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Helium Browser
+Comment=Browse the web securely with zero telemetry and built-in adblocking
+Exec=/usr/bin/helium %U
+Terminal=false
+Type=Application
+Icon=browser-web
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
