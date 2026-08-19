@@ -1,0 +1,40 @@
+# packages/base/so-cute-cat/package.yml
+name: so-cute-cat
+version: 0.33.1
+tier: base
+image_include: true
+description: "Cross-platform, feature-rich, GPU-accelerated terminal engine for InterGenOS."
+source:
+  url: "https://github.com/brolookslikeanfish67-hub/SO-CUTE-CAT"
+dependencies:
+  - python3
+  - libpng
+  - lcms2
+  - freetype
+  - fontconfig
+  - harfbuzz
+  - mesa
+build: |
+  # Build the binary package using the native installer setup script
+  python3 setup.py linux-package --prefix=/usr
+  
+  # Stage the generated output files into your core system directories
+  mkdir -p "${IGOS_PKG_DEST}/usr/share/applications"
+  cp -r linux-package/* "${IGOS_PKG_DEST}/usr/"
+
+  # Create standard symlink references so user commands track smoothly
+  ln -s so-cute-cat "${IGOS_PKG_DEST}/usr/bin/kitty"
+
+  # Generate the desktop application launcher for the GNOME 49 Menu
+  cat << 'EOF' > "${IGOS_PKG_DEST}/usr/share/applications/so-cute-cat.desktop"
+  [Desktop Entry]
+  Version=1.0
+  Name=SO-CUTE-CAT Terminal
+  Comment=GPU-accelerated command environment
+  TryExec=so-cute-cat
+  Exec=so-cute-cat
+  Icon=utilities-terminal
+  Type=Application
+  Categories=System;TerminalEmulator;
+  StartupNotify=true
+  EOF
