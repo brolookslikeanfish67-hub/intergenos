@@ -19,6 +19,9 @@ build: |
   # Extract downloaded binary bundle straight to /opt/
   cp -r * "${IGOS_PKG_DEST}/opt/helium/"
 
+  # Copy the desktop entry launcher into the target system directory
+  cp helium.desktop "${IGOS_PKG_DEST}/usr/share/applications/"
+
   # Create an absolute execution wrapper fixing native Wayland scaling for GNOME 49
   cat << 'EOF' > "${IGOS_PKG_DEST}/usr/bin/helium"
   #!/bin/bash
